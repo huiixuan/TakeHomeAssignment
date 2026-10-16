@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, ConfigDict
 class BookCreate(BaseModel):
   model_config = ConfigDict(str_strip_whitespace=True)
 
-  id: str = Field(min_length=4, max_length=100)
+  id: str = Field(min_length=4, max_length=100, pattern=r"^B")
   title: str = Field(min_length=1, max_length=100)
   author: str = Field(min_length=1, max_length=100)
   genre: str = Field(min_length=1, max_length=100)
