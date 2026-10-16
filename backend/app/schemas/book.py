@@ -1,4 +1,14 @@
+from typing import TypedDict
 from pydantic import BaseModel, Field, ConfigDict
+
+class BookData(TypedDict):
+  title: str
+  author: str
+  genre: str
+  price: float
+
+class BookResponseData(BookData):
+  id: str
 
 class BookCreate(BaseModel):
   model_config = ConfigDict(str_strip_whitespace=True)

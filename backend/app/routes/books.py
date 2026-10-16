@@ -1,37 +1,36 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request, Response, Depends, status
 from backend.app.schemas.book import BookCreate, BookResponse
-from backend.app.services.book_service import get_all_books, get_book_by_id, create_book, delete_book_by_id
+from backend.app.services.book_service import BookService
 
 router = APIRouter(prefix="/api/book", tags=["books"])
 
-@router.get("/", response_model=dict[str, BookResponse], status_code=200)
-def get_books():
-  books = get_all_books()
+def get_book_service(request: Request) -> BookService:
+  return request.app.state.book_service
 
-  return {
-    book_id: {"id": book_id, **book}
-    for book_id, book in books.items()
-  }
+@router.get("/", response_model=dict[str, BookResponse], status_code=status.HTTP_200_OK)
+def get_books(service: BookService = Depends(get_book_service)):
+  return service.get_all_books() 
 
-@router.get("/{id}", response_model=BookResponse, status_code=200)
-def get_book(id: str):
-  book = get_book_by_id(id)
+@router.get("/{id}", response_model=BookResponse, status_code=status.HTTP_200_OK)
+def get_book(id: str, service: BookService = Depends(get_book_service)):
+  book = service.get_book_by_id(id)
   if book is None:
     raise HTTPException(status_code=404, detail=f"Book with id {id} not found.")
   
   return book
 
-@router.post("/", response_model=BookResponse, status_code=201)
-def add_book(book: BookCreate):
-  book_obj = create_book(book)
+@router.post("/", response_model=BookResponse, status_code=status.HTTP_201_CREATED)
+def add_book(book: BookCreate, service: BookService = Depends(get_book_service)):
+  book_obj = service.create_book(book)
   if book_obj is None:
     raise HTTPException(status_code=409, detail=f"Book with id {book.id} already exists.")
 
   return book_obj
 
-@router.delete("/{id}", status_code=204)
-def delete_book(id: str):
-  deleted_id = delete_book_by_id(id)
-  if deleted_id is None:
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_book(id: str, service: BookService = Depends(get_book_service)):
+  is_deleted = service.delete_book_by_id(id)
+  if not is_deleted:
     raise HTTPException(status_code=404, detail=f"Book with id {id} not found.")
 
+  return Response(status_code=status.HTTP_204_NO_CONTENT)
