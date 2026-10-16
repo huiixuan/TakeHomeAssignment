@@ -1,12 +1,16 @@
 import json
+import threading
 from pathlib import Path
 from backend.app.schemas.book import BookCreate
 
 BOOKS_DATA = Path(__file__).resolve().parent.parent / "data" / "books.json"
 
+books_lock = threading.Lock()
+
 def get_all_books():
-  with open(BOOKS_DATA, "r") as f:
-    return json.load(f)
+  with books_lock:
+    with open(BOOKS_DATA, "r") as f:
+      return json.load(f)
 
 def get_book_by_id(id: str):
   books = get_all_books()
@@ -16,25 +20,27 @@ def get_book_by_id(id: str):
   )
 
 def create_book(book: BookCreate):
-  books = get_all_books()
-  if book.id in books:
-    return None
+  with books_lock:
+    books = get_all_books()
+    if book.id in books:
+      return None
 
-  books[book.id] = book.model_dump(exclude={"id"})
+    books[book.id] = book.model_dump(exclude={"id"})
 
-  with open(BOOKS_DATA, "w") as f:
-    json.dump(books, f, indent=4)
+    with open(BOOKS_DATA, "w") as f:
+      json.dump(books, f, indent=4)
 
-  return {"id": book.id, **books[book.id]}
+    return {"id": book.id, **books[book.id]}
 
 def delete_book_by_id(id: str):
-  books = get_all_books()
-  if id not in books:
-    return None
+  with books_lock:
+    books = get_all_books()
+    if id not in books:
+      return None
 
-  del books[id]
-  with open(BOOKS_DATA, "w") as f:
-    json.dump(books, f, indent=4)
+    del books[id]
+    with open(BOOKS_DATA, "w") as f:
+      json.dump(books, f, indent=4)
 
-  return id
+    return id
 
