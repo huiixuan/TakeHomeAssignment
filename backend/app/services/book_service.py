@@ -10,7 +10,7 @@ class BookService:
     self._lock = threading.RLock()
 
     self.data_path = Path(data_path)
-    self.data_path.mkdir(parents=True, exist_ok=True) # To create the parent directories if they are missing
+    self.data_path.parent.mkdir(parents=True, exist_ok=True) # To create the parent directories if they are missing
 
     # Creates the data JSON file if it does not already exist and initialise with an empty dictionary
     if not self.data_path.exists():
