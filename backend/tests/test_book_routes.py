@@ -2,13 +2,12 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
-from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from backend.app.routes.books import router
-from backend.app.services import book_service
+from backend.app.main import app
+from backend.app.routes.books import get_book_service
+from backend.app.services.book_service import BookService
 
 
 class TestBookRoutes(unittest.TestCase):
@@ -28,17 +27,11 @@ class TestBookRoutes(unittest.TestCase):
 
     self.data_file.write_text(json.dumps(self.initial_books))
 
-    self.patcher = patch.object(
-      book_service, "BOOKS_DATA", self.data_file
-    )
-    self.patcher.start()
-
-    app = FastAPI()
-    app.include_router(router)
+    self.test_service = BookService(self.data_file)
+    app.dependency_overrides[get_book_service] = lambda: self.test_service
     self.client = TestClient(app)
 
   def tearDown(self):
-    self.patcher.stop()
     self.temp_dir.cleanup()
 
   def test_get_all_books(self):
