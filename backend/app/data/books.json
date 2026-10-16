@@ -1,0 +1,92 @@
+{
+  "B001": {
+    "title": "The Five People You Meet in Heaven",
+    "author": "Mitch Albom",
+    "genre": "Fiction",
+    "price": 16.80
+  },
+  "B002": {
+    "title": "James and the Giant Peach",
+    "author": "Roald Dahl",
+    "genre": "Fantasy",
+    "price": 14.50
+  },
+  "B003": {
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "genre": "Science Fiction",
+    "price": 19.99
+  },
+  "B004": {
+    "title": "Harry Potter and the Philosopher's Stone",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "price": 21.88
+  },
+  "B005": {
+    "title": "Anne of Green Gables",
+    "author": "Lucy Maud Montgomery",
+    "genre": "Fiction",
+    "price": 14.60
+  },
+  "B006": {
+    "title": "Totto-Chan: The Little Girl at the Window",
+    "author": "Tetsuko Kuroyanagi",
+    "genre": "Autobiography",
+    "price": 16.80
+  },
+  "B007": {
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "genre": "Thriller",
+    "price": 17.89
+  },
+  "B008": {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Thriller",
+    "price": 20.50
+  },
+  "B009": {
+    "title": "Divergent",
+    "author": "Veronica Roth",
+    "genre": "Science Fiction",
+    "price": 16.25
+  },
+  "B010": {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Fiction",
+    "price": 15.80
+  },
+  "B011": {
+    "title": "Me Before You",
+    "author": "Jojo Moyes",
+    "genre": "Romance",
+    "price": 17.50
+  },
+  "B012": {
+    "title": "Love, Rosie",
+    "author": "Cecelia Ahern",
+    "genre": "Romance",
+    "price": 15.65
+  },
+  "B013": {
+    "title": "The Lying Game",
+    "author": "Sara Shepard",
+    "genre": "Thriller",
+    "price": 19.82
+  },
+  "B014": {
+    "title": "Private Peaceful",
+    "author": "Michael Morpurgo",
+    "genre": "Fiction",
+    "price": 14.65
+  },
+  "B015": {
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Fiction",
+    "price": 17.78
+  }
+}
