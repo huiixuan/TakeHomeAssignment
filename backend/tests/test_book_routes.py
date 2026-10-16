@@ -32,6 +32,8 @@ class TestBookRoutes(unittest.TestCase):
     self.client = TestClient(app)
 
   def tearDown(self):
+    app.dependency_overrides.clear()
+    self.client.close()
     self.temp_dir.cleanup()
 
   def test_get_all_books(self):

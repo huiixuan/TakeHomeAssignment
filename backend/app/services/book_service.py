@@ -17,8 +17,11 @@ class BookService:
       self.data_path.write_text("{}\n", encoding="utf-8")
 
     # Load the data JSON file
-    with self.data_path.open("r", encoding="utf-8") as f:
-      raw_data = json.load(f)
+    try:
+      with self.data_path.open("r", encoding="utf-8") as f:
+        raw_data = json.load(f)
+    except (json.JSONDecodeError, ValueError):
+      raw_data = {}
 
     # Checks that the JSON file is in the right format
     if not isinstance(raw_data, dict):
