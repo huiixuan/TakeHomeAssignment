@@ -14,14 +14,15 @@ def get_all_books():
 
 def get_book_by_id(id: str):
   books = get_all_books()
-  return (
-    {"id": id, **books.get(id)}
-    if id in books else None
-  )
-
+  if id not in books:
+    return None
+  
+  return {"id": id, **books.get(id)}
+   
 def create_book(book: BookCreate):
   with books_lock:
-    books = get_all_books()
+    with open(BOOKS_DATA, "r") as f:
+      books = json.load(f)
     if book.id in books:
       return None
 
@@ -34,7 +35,8 @@ def create_book(book: BookCreate):
 
 def delete_book_by_id(id: str):
   with books_lock:
-    books = get_all_books()
+    with open(BOOKS_DATA, "r") as f:
+      books = json.load(f)
     if id not in books:
       return None
 
